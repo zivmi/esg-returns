@@ -2,14 +2,24 @@
 FROM postgres:latest
 
 # Set the working directory in the container
-WORKDIR /esg_returns
+WORKDIR /esg-returns
 
 # Copy the current directory contents into the container
-COPY . /esg_returns/
+COPY . /esg-returns/
 
-# Install any needed packages specified in requirements.txt
-RUN apt-get update && apt-get install -y python3 python3-pip
-COPY /requirements.txt ./
+# Install Python3, pip, and virtualenv
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    python3-venv \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a virtual environment and activate it
+RUN python3 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Install the Python dependencies
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make ports available to the world outside this container
