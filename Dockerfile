@@ -12,6 +12,12 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     python3-venv \
+    build-essential \
+    libatlas-base-dev \
+    gcc \
+    gfortran \
+    libblas-dev \
+    liblapack-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Create a virtual environment and activate it
