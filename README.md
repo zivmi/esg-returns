@@ -61,10 +61,14 @@ Project Organization
 ## Setup and Running
 
 1. Clone the repository:
+```
 git clone https://github.com/zivmi/esg-returns
-
+```
 2. Navigate to the project directory:
+```bash
 cd esg-returns
-
+```
 3. Build the Docker image:
-docker build -t esg-returns .
+```bash
+esg-returns (main) $ docker build -t esg-returns .
+```
