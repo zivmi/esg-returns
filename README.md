@@ -55,3 +55,20 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+# Our Project:
+
+## Setup and Running
+
+1. Clone the repository:
+```
+git clone https://github.com/zivmi/esg-returns
+```
+2. Navigate to the project directory:
+```bash
+cd esg-returns
+```
+3. Build the Docker image:
+```bash
+esg-returns (main) $ docker build -t esg-returns .
+```
