@@ -39,7 +39,7 @@ CREATE TABLE public.test_esg_data (
 );
 
 
-ALTER TABLE public.test_esg_data OWNER TO macbook;
+ALTER TABLE public.test_esg_data OWNER TO my_user;
 
 --
 -- Data for Name: test_esg_data; Type: TABLE DATA; Schema: public; Owner: macbook
