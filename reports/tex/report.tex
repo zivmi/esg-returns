@@ -64,22 +64,49 @@ ESG returns are awesome test test
 %---------------------------------------------------
 \newpage
 \section{Introduction}
+In this research project, we assess the factors introduced by \textcite{FamaFrench1992}. Additionally, we incorporate Environmental, Social, and Governance [ESG] factors into the factor models.
+The question arises whether these are valuable factors. Based on this, we examine following research question:\\
 
+
+How do ESG factors relate to yields of companies?
 
 %---------------------------------------------------
 %
 %%%%%%%%%%%%%%%%%%%%%% Main sections %%%%%%%%%%%%%%%%%%%%%%%
 %												   
 %---------------------------------------------------
+\section{Factor Models and ESG in existing research}
+% Or: Relevance of the Topic
+% Factor Models and ESG
+ There exist various approaches to modeling asset prices. One central theory backed by the assumption of investor's rationality is the Efficient Market Hypothesis. It states that all information about a firm value is reflected by its stock price. Accordingly, generating excess returns in terms of alpha is not possible (\textcite{Fama1970}). 
 
-\section{Methodology}
+Based upon this, \textcite{Sharpe1964} and \textcite{Lintner1965} introduced the Capital Asset Pricing Model [CAPM]. Given the systematic risk of a stock or a portfolio, the expected return can be calculated. Respectively, the only factor is the beta which represents the market risk. This inevitably leads to anomalies caused by the model, suggesting the need for more factors.
 
+As an alternative, the Arbitrage Pricing Theory [APT] was developed by \textcite{Ross1976} which loosens the assumption that markets are perpetually efficient. Instead, security prices may deviate from the fair value occasionally. However, these temporary mispricings are eventually corrected by market action, making arbitrage opportunities only possible in the short term.
+The multi-factor asset pricing models use the idea that there is a linear relationship between the macroeconomic factors and the expected return.
+
+\textcite{FamaFrench1992} have proposed some factors based on the anomalies that were noticed in the CAPM.
+First of all, Small-Cap stocks seemingly yield higher expected returns compared to the market which justifies the extension of a size factor called Small Minus Big [SMB].
+
+Additionally, the value anomaly was observed where stocks with a high book-to-market ratio tend to perform better than the market, introducing the High Minus Low [HML] factor.
+This leads to the Fama and French Three Factor Model with the two additional factors SMB and HML.
+
+% ChatGPT
+In recent years, ESG factors have gained significant attention in the financial landscape. Amid the rising focus on sustainable investment strategies, ESG has emerged as a key determinant of a company’s financial performance. This paradigm shift towards sustainability and socially responsible investing has opened novel research avenues, one of which is the incorporation of ESG factors into yield analysis.
+
+Fama and French's Three-Factor model, which considers risk factors including market risk, size, and value to predict returns, has been integral to yield analysis. To this model, we integrate ESG elements.
+
+Correlating ESG factors with yields makes sense, given that companies with superior ESG standards may achieve higher operational efficiency, establish better stakeholder relationships, and move towards overall risk reduction. These factors could contribute to a stronger financial profile, and by extension, higher yields. Conversely, companies displaying inadequate ESG measures could face operational risks and regulatory sanctions, leading to lower yields.
+
+\section{Methodology} % Still needs adjustment
+Returns of US stocks are observed within the time period of January 1990 to December 2021. Data cleaning and factor construction are done in the same way as in the approach of \textcite{FamaFrench2014}. This gives a total of 5'715 companies. Simple linear regressions are performed where excess returns are regressed on each factor. Considering the Fama-Macbeth regression method, the statistical summary can be examined. The methods applied include a t-statistic which tests the null hypothesis that the regression coefficient is zero. \\
 \subsection{Data}
 
 \subsection{Model}
 Some reference \cite{Paolellalinear}.
 
 \section{Results}
+Of all of the factors, seven of them were found to be statistically significant in both of the regression approaches. It was further found that the factors that already exist in the literature, particularly the profitability, investment and momentum factors, do not always influence stock returns in the same direction as attested in the literature. % Adjust this part
 
 %\begin{figure}
 %    \centering
