@@ -43,7 +43,7 @@ regressor = LinearRegression() # Creates a LinearRegression Object
 #print('Coefficients: \n', regressor.coef_)
 
 # Regression using loop
-x = esgdata[['ADBE_E_Score', 'ADBE_G_Score']]
+x = esgdata[['ADBE_E_Score']]
 
 intercepts = [] # Initialize lists to store intercepts and coefficients
 coefficients = []
@@ -61,7 +61,34 @@ for column in monthlyreturns.columns:
 
 # Coefficients are stored in list of numpy arrays, converting to list of lists for readability
 coefficients = [list(coef) for coef in coefficients]
+intercepts = [list(intercepts) for intercept in intercepts]
 
-# Print intercepts and coefficients
-print('Intercepts: \n', intercepts)
-print('Coefficients: \n', coefficients)
+# Calculate averages
+import numpy as np
+avg_coef = np.mean(coefficients)
+avg_int = np.mean(intercepts)
+print(avg_coef)
+print(avg_int)
+
+# Plot
+import matplotlib.pyplot as plt
+x = np.linspace(-10, 10, 400)
+y = avg_coef * x + avg_int
+
+plt.figure(figsize=(10,6))
+plt.plot(x, y)
+plt.title('Regression of ABDE Score')
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.grid(True)
+plt.show()
+
+# Store on git
+#git init 
+git add plot.py
+git commit -m "Plot of regression: ABDE Score"
+git remote add origin https://github.com/zivmi/esg-returns/tree/main/src/visualization
+git push -u origin master
+
+
+
