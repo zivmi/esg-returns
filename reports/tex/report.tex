@@ -76,9 +76,7 @@ How do ESG factors relate to yields of companies?
 %												   
 %---------------------------------------------------
 \section{Factor Models and ESG in existing research}
-% Or: Relevance of the Topic
-% Factor Models and ESG
- There exist various approaches to modeling asset prices. One central theory backed by the assumption of investor's rationality is the Efficient Market Hypothesis. It states that all information about a firm value is reflected by its stock price. Accordingly, generating excess returns in terms of alpha is not possible (\textcite{Fama1970}). 
+There exist various approaches to modeling asset prices. One central theory backed by the assumption of investor's rationality is the Efficient Market Hypothesis. It states that all information about a firm value is reflected by its stock price. Accordingly, generating excess returns in terms of alpha is not possible (\textcite{Fama1970}). 
 
 Based upon this, \textcite{Sharpe1964} and \textcite{Lintner1965} introduced the Capital Asset Pricing Model [CAPM]. Given the systematic risk of a stock or a portfolio, the expected return can be calculated. Respectively, the only factor is the beta which represents the market risk. This inevitably leads to anomalies caused by the model, suggesting the need for more factors.
 
@@ -91,16 +89,13 @@ First of all, Small-Cap stocks seemingly yield higher expected returns compared 
 Additionally, the value anomaly was observed where stocks with a high book-to-market ratio tend to perform better than the market, introducing the High Minus Low [HML] factor.
 This leads to the Fama and French Three Factor Model with the two additional factors SMB and HML.
 
-% ChatGPT
-In recent years, ESG factors have gained significant attention in the financial landscape. Amid the rising focus on sustainable investment strategies, ESG has emerged as a key determinant of a company’s financial performance. This paradigm shift towards sustainability and socially responsible investing has opened novel research avenues, one of which is the incorporation of ESG factors into yield analysis.
-
-Fama and French's Three-Factor model, which considers risk factors including market risk, size, and value to predict returns, has been integral to yield analysis. To this model, we integrate ESG elements.
-
-Correlating ESG factors with yields makes sense, given that companies with superior ESG standards may achieve higher operational efficiency, establish better stakeholder relationships, and move towards overall risk reduction. These factors could contribute to a stronger financial profile, and by extension, higher yields. Conversely, companies displaying inadequate ESG measures could face operational risks and regulatory sanctions, leading to lower yields.
+In recent years, ESG factors have gained significant attention in the financial landscape and has emerged as a key determinant of a company’s financial performance. Fama and French's Three-Factor model, which considers risk factors including market risk, size, and value to predict returns, has been integral to yield analysis. To this model, we integrate ESG elements.
+Correlating ESG factors with yields is sensible, given that companies with superior ESG standards may achieve higher operational efficiency, establish better stakeholder relationships, and move towards overall risk reduction. These factors could contribute to a stronger financial profile, and by extension, higher yields. Conversely, companies displaying inadequate ESG measures could face operational risks and regulatory sanctions, leading to lower yields.
 
 \section{Methodology} % Still needs adjustment
-Returns of US stocks are observed within the time period of January 1990 to December 2021. Data cleaning and factor construction are done in the same way as in the approach of \textcite{FamaFrench2014}. This gives a total of 5'715 companies. Simple linear regressions are performed where excess returns are regressed on each factor. Considering the Fama-Macbeth regression method, the statistical summary can be examined. The methods applied include a t-statistic which tests the null hypothesis that the regression coefficient is zero. \\
-\subsection{Data}
+% WRITE ABOUT THE DATA AND THEIR CLEANING
+
+Simple linear regressions are performed where monthly returns are regressed on each factor. Based on that, we obtain plots displaying the intercept, coefficient and the t-statistic.\\ % Needs to be adjusted in python
 
 \subsection{Model}
 Some reference \cite{Paolellalinear}.
@@ -113,14 +108,101 @@ Of all of the factors, seven of them were found to be statistically significant 
 %    \includegraphics[width=0.4\linewidth]{graph1.png}
 %\end{figure}
 
-\section{Conclusion} 
+\begin{thebibliography}{1} % Needs adjustment
+
+%\bibitem{Paolellalinear}
+%Marc S. Paolella (2018) \emph{Linear Models and Time-Series Analysis}, John Wiley and Sons
+
+@article{Fama1970,
+    title={Efficient Capital Markets: A Review of Theory and Empirical Work},
+    author={Fama, Eugene F.},
+    journal={The Journal of Finance},
+    volume={25},
+    number={2},
+    pages={384-385},
+    year={1970},
+    publisher={Wiley for the American Finance Association}
+}
+
+@article{Sharpe1964,
+    title={Capital Asset Prices: A Theory of Market Equilibrium under Conditions of Risk},
+    author={Sharpe, William F.},
+    journal={The Journal of Finance},
+    volume={19},
+    number={3},
+    pages={425-442},
+    year={1964},
+    publisher={Wiley for the American Finance Association}
+}
+
+@article{Lintner1965,
+    title={The Valuation of Risk Assets and the Selection of Risky Investments in Stock Portfolios and Capital Budgets},
+    author={Lintner, John},
+    journal={The Review of Economics and Statistics},
+    volume={47},
+    number={1},
+    pages={13-37},
+    year={1965},
+    publisher={MIT Press}
+}
+
+@article{Ross1976,
+    title={The Arbitrage Theory of Capital Asset Pricing},
+    author={Ross, Stephen A.},
+    journal={Journal of Economic Theory},
+    volume={13},
+    number={3},
+    pages={341-360},
+    year={1976},
+    publisher={Elsevier}
+}
+
+@article{FamaFrench1992,
+    title={The Cross-Section of Expected Stock Returns},
+    author={Fama, Eugene F. and French, Kenneth R.},
+    journal={The Journal of Finance},
+    volume={47},
+    number={2},
+    pages={427-465},
+    year={1992},
+    publisher={Wiley for the American Finance Association}
+}
 
 
+@article{FamaFrench2014,
+    title={A five-factor asset pricing model},
+    author={Fama, Eugene F. and French, Kenneth R.},
+    journal={Journal of Financial Economics},
+    volume={116},
+    number={1},
+    pages={1-22},
+    year={2014},
+    publisher={Elsevier}
+}
 
-\begin{thebibliography}{1}
 
-\bibitem{Paolellalinear}
-Marc S. Paolella (2018) \emph{Linear Models and Time-Series Analysis}, John Wiley and Sons
+@article{FamaFrench2012,
+  title = {Size, Value, and Momentum in International Stock Returns},
+  author = {Fama, Eugene F. and French, Kenneth R.},
+  journal = {Journal of Financial Economics},
+  volume = {105},
+  number = {3},
+  pages = {457-472},
+  year = {2012},
+  publisher = {Elsevier},
+}
+
+
+@article{FamaFrench1997,
+    title = {Industry costs of equity},
+    author = {Fama, Eugene F. and French, Kenneth R.},
+    journal = {Journal of Financial Economics},
+    volume = {43},
+    number = {2},
+    pages = {153-193},
+    year = {1997},
+}
+
 
 \end{thebibliography}
 
