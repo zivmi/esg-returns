@@ -53,11 +53,7 @@ def fetch_fama_french():
         # Filter rows based on the condition
         df = df[df['Unnamed: 0'] >= cutoff_date]
 
-        # Save the content to a local file
-        file_path = "data/raw/F-F_Research_Data_Factors.CSV"
-        df.to_csv(file_path, index=False)
-
-        return f"CSV file downloaded successfully and saved to: {file_path}"
+        return df
     else:
         return f"Failed to retrieve the file. Status code: {response.status_code}"
     
@@ -71,6 +67,9 @@ def fetch_monthly_returns(start_date, end_date, tickers):
         # Fetch the stock prices for this tickers from yahoo finance
         prices = yf.download(tickers,start_date,end_date, auto_adjust=True)['Close']
 
+        # Convert index to datetime so that 'resample' can be used
+        prices.index = pd.to_datetime(prices.index)
+
         # Calculate the monthly returns
         monthly_returns = prices.resample('M').ffill().pct_change()
 
@@ -80,7 +79,6 @@ def fetch_monthly_returns(start_date, end_date, tickers):
     except ValueError:
         print('Failed download, try again.')
         prices = None
-    
 
     return monthly_returns
 
@@ -130,8 +128,9 @@ folder_path = 'data/raw/'
 # Create the full path by joining the folder path and file name
 output_path_mr = f'{folder_path}monthly_returns.csv'
 output_path_esg = f'{folder_path}esg_data.csv'
+output_path_ff = f'{folder_path}F-F_Research_Data_Factors.csv'
 
 # Fetch data and save to folder data raw
-fetch_monthly_returns(start_date,end_date,tickers).to_csv(output_path_mr, index=False)
-fetch_esg(tickers).to_csv(output_path_esg, index=False)
-fetch_fama_french()
+fetch_monthly_returns(start_date,end_date,tickers).to_csv(output_path_mr, index=True)
+fetch_esg(tickers).to_csv(output_path_esg, index=True)
+fetch_fama_french().to_csv(output_path_ff, index=True)
