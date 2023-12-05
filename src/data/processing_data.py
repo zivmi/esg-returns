@@ -13,7 +13,7 @@ def drop_columns_with_missing_values(df):
     return df
 
 # Import monthly returns
-monthlyreturns = pd.read_csv(r'/data/raw/monthly_returns.csv', index_col=0, parse_dates=True)
+monthlyreturns = pd.read_csv(r'data/raw/monthly_returns.csv', index_col=0, parse_dates=True)
 
 # Drop column with all NA
 monthlyreturns = drop_columns_with_missing_values(monthlyreturns)
@@ -22,13 +22,13 @@ monthlyreturns = drop_columns_with_missing_values(monthlyreturns)
 monthlyreturns = monthlyreturns.fillna(method='ffill') 
 
 # Import ESG data
-esgdata =  pd.read_csv(r'/data/raw/esg_data.csv', index_col=1, parse_dates=True).drop(columns=['Unnamed: 0'])
+esgdata =  pd.read_csv(r'data/raw/esg_data.csv', index_col=1, parse_dates=True).drop(columns=['Unnamed: 0'])
 
 # Fill Forward imputation
 esgdata = esgdata.fillna(method='ffill')
 
 # Import FF data (does not need any processing)
-famafrenchdata = pd.read_csv(r'../data/raw/F-F_Research_Data_Factors.csv', index_col=1)
+famafrenchdata = pd.read_csv(r'data/raw/F-F_Research_Data_Factors.csv', index_col=1)
 famafrenchdata.index = pd.to_datetime(famafrenchdata.index, format='%Y-%m-%d').rename('Date')
 famafrenchdata = famafrenchdata.iloc[:, 1:] # drop unnamed column
 
