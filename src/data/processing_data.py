@@ -13,26 +13,24 @@ def drop_columns_with_missing_values(df):
     return df
 
 # Import monthly returns
-monthlyreturns = pd.read_csv(r'data/raw/monthly_returns.csv')
-# Drop column with all NA
-drop_columns_with_missing_values(monthlyreturns)
+monthlyreturns = pd.read_csv(r'/data/raw/monthly_returns.csv', index_col=0, parse_dates=True)
 
+# Drop column with all NA
+monthlyreturns = drop_columns_with_missing_values(monthlyreturns)
+
+# Fill-Forward imputation
+monthlyreturns = monthlyreturns.fillna(method='ffill') 
 
 # Import ESG data
-esgdata =  pd.read_csv(r'data/raw/esg_data.csv')
-# Drop Date column as it is not needed for regression
-esgdata = esgdata.drop('Date', axis=1)
+esgdata =  pd.read_csv(r'/data/raw/esg_data.csv', index_col=1, parse_dates=True).drop(columns=['Unnamed: 0'])
 
-# Remove first row as time window from return calculation in monthly returns changed by one month
-esgdata = esgdata.iloc[1:]
+# Fill Forward imputation
+esgdata = esgdata.fillna(method='ffill')
 
-
-# Mean imputation: fill missing values with the mean
-monthlyreturns = monthlyreturns.fillna(monthlyreturns.mean())
-esgdata = esgdata.fillna(esgdata.mean())
-
-# Import ESG data (does not need any processing)
-famafrenchdata =  pd.read_csv(r'data/raw/F-F_Research_Data_Factors.csv')
+# Import FF data (does not need any processing)
+famafrenchdata = pd.read_csv(r'../data/raw/F-F_Research_Data_Factors.csv', index_col=1)
+famafrenchdata.index = pd.to_datetime(famafrenchdata.index, format='%Y-%m-%d').rename('Date')
+famafrenchdata = famafrenchdata.iloc[:, 1:] # drop unnamed column
 
 # Specify the folder path
 folder_path = 'data/processed/'
@@ -43,6 +41,6 @@ output_path_esg = f'{folder_path}esg_data_processed.csv'
 output_path_ff = f'{folder_path}fama_french_data_processed.csv'
 
 # Save to data processed folder
-monthlyreturns.to_csv(output_path_mr, index=False)
-esgdata.to_csv(output_path_esg, index=False)
-famafrenchdata.to_csv(output_path_ff, index=False)
+monthlyreturns.to_csv(output_path_mr, index=True)
+esgdata.to_csv(output_path_esg, index=True)
+famafrenchdata.to_csv(output_path_ff, index=True)
