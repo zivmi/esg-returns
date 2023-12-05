@@ -21,6 +21,10 @@ monthlyreturns = drop_columns_with_missing_values(monthlyreturns)
 # Fill-Forward imputation
 monthlyreturns = monthlyreturns.fillna(method='ffill') 
 
+# ESG and FF data are indexed by the first day of the month, 
+# whereas monthly returns are indexed by the last day of the month, thus we shift returns by 1 day
+monthlyreturns.index = monthlyreturns.index.shift(1, freq='D')
+
 # Import ESG data
 esgdata =  pd.read_csv(r'data/raw/esg_data.csv', index_col=1, parse_dates=True).drop(columns=['Unnamed: 0'])
 

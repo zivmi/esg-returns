@@ -3,44 +3,32 @@
 # This needs to be adjusted once they are cleaned in SQL
 ####################################################
 
+import numpy as np
 import pandas as pd
-from sqlalchemy import create_engine
+import statsmodels.formula.api as smf
+from sklearn.linear_model import LinearRegression
+from sqlalchemy import create_engine, Float, Date
 
-# Create an SQLAlchemy engine
+## Create an SQLAlchemy engine
 engine = create_engine('sqlite:///data/financial_data.db')
 
 # SQL queries to select all data from each table
 esg_query = "SELECT * FROM esg_data"
 monthly_returns_query = "SELECT * FROM monthly_returns"
+fama_french_query = "SELECT * FROM fama_french_data"
 
 # Read the data into pandas DataFrames
-esgdata = pd.read_sql(esg_query, engine)
-monthlyreturns = pd.read_sql(monthly_returns_query, engine)
+esgdata = pd.read_sql(esg_query, engine).set_index('Date')
+monthlyreturns = pd.read_sql(monthly_returns_query, engine).set_index('Date')
+fama_french = pd.read_sql(fama_french_query, engine).set_index('Date')
 
-# Import monthly returns
-# monthlyreturns = pd.read_csv(r'C:\Users\jenni\Desktop\extern_monthly_returns.csv')
-# monthlyreturns = monthlyreturns.drop('Date', axis=1) # Drops date, not needed for regression
-monthlyreturns = monthlyreturns.drop(['GEHC'], axis=1) # This is a column which only contains NaN
+# Convert index to datetime
+esgdata.index = pd.to_datetime(esgdata.index, format='%Y-%m-%d')
+monthlyreturns.index = pd.to_datetime(monthlyreturns.index, format='%Y-%m-%d')
+fama_french.index = pd.to_datetime(fama_french.index, format='%Y-%m-%d')
 
-# Import changed ESG data
-# esgdata =  pd.read_csv(r'C:\Users\jenni\Desktop\esg_data_change.csv')
-# esgdata = esgdata.drop('Date', axis=1)
 
-# Mean imputation
-# monthlyreturns = monthlyreturns.fillna(monthlyreturns.mean())
-# esgdata = esgdata.fillna(esgdata.mean())
-
-# Regression specifications
-import statsmodels.formula.api as smf
-from sklearn.linear_model import LinearRegression
 regressor = LinearRegression() # Creates a LinearRegression Object
-
-# Regression: Test without loop, not needed
-#x = esgdata[['ADBE_E_Score', 'ADBE_G_Score']]
-#y = monthlyreturns['ADI']
-#regressor.fit(x,y)
-#print('Intercept: \n', regressor.intercept_)
-#print('Coefficients: \n', regressor.coef_)
 
 # Regression using loop
 x = esgdata[['ADBE_E_Score']]
@@ -50,10 +38,16 @@ coefficients = []
 
 # Loop over each column in 'monthlyreturns'
 for column in monthlyreturns.columns:
-    # Get the column data as ‘y’
+
     y = monthlyreturns[column]
+
+    temp_df = x.join(y).dropna()
+
+    x_temp = temp_df.iloc[:, 0].values.reshape(-1, 1)  # values converts it into a numpy array
+    y_temp = temp_df.iloc[:, 1].values.reshape(-1, 1)  
+
     # Fit the model
-    regressor.fit(x,y)
+    regressor.fit(x_temp, y_temp)
 
     # Append the intercept and coefficients to the respective lists
     intercepts.append(regressor.intercept_)
@@ -81,14 +75,6 @@ plt.title('Regression of ABDE Score')
 plt.xlabel('X')
 plt.ylabel('Y')
 plt.grid(True)
+plt.savefig('reports/figures/regression.png') # uncomment to save figure
 plt.show()
-
-# Store on git
-#git init 
-git add plot.py
-git commit -m "Plot of regression: ABDE Score"
-git remote add origin https://github.com/zivmi/esg-returns/tree/main/src/visualization
-git push -u origin master
-
-
 
