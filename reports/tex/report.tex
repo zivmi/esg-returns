@@ -108,13 +108,34 @@ Additionally, a multiple linear regressions is performed where monthly returns a
 \begin{equation} \text{E}(\text{r}_{\text{i}}) = \text{r}_{\text{f}} + \beta \cdot (\text{r}_{\text{M}} - \text{r}_{\text{f}}) + \beta_{\text{SMB}} \cdot \text{SMB} + \beta_{\text{HML} \cdot \text{HML} + \beta_{\text{ESG}} \cdot \text{ESG} \end{equation}
 
 Based on those two equations, we obtain following summery statistis: \\
-% Add summary statistics
+% Add summary statistics: FF3FM
+
+\usepackage{tabularray}
+\begin{table}
+    \centering
+    \begin{tblr}{
+    }
+                 & Intercept          & Market Risk Premium & SMB & HML & ESG \\
+    Coefficients & -5.900 * 10\^{-2} & -8.300 * 10\^{-5}     & -6.167 * 10\^{-3}    & -3.050 * 10\^{-3}     & 1.009 * 10\^{-3}    \\
+    t-Value      & 0.068                   & -0.968                    & 0.432    & -0.642    & 0.010    \\    
+    \end{tblr}
+    \end{table}
+
+
 
 Further, we get plots displaying the intercept, coefficient and the t-statistic.\\ 
-% Add plots
+% Add plots: FF3FM
 
-\section{Results}
-Of all of the factors,...% Add
+% Add plots: FF3FM + ESG
+
+\section{Results} 
+% Add about FF3FM
+
+Once the ESG factor is included in the factor model, the dynamics are as follows: The market risk premium has a negative regression slope, indicating that there does not exist a premium rewarding systematic risk. The risk-return profile can not be used to get high returns.
+The coefficients for SML and HML are both negative, which would mean that the optimal investment strategy is buying stocks issued by large firms, as well as growth stocks.
+The only factor exhibiting a positive coefficient is the ESG factor. Hence, high ESG ratings can lead to outperformance.\\
+However, as none of the t-values are statistically significant under the 5\% significance level, these results must be handled with caution.
+To increase statistical significance, one should increase the inspected time-period. Further, by increasing the sample size, the statistical significance might increase.
 
 
 \begin{thebibliography}{1} % Does this compile correctly?
