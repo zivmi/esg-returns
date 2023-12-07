@@ -93,11 +93,11 @@ In recent years, ESG factors have gained significant attention in the financial 
 Correlating ESG factors with yields is sensible, given that companies with superior ESG standards may achieve higher operational efficiency, establish better stakeholder relationships, and move towards overall risk reduction. These factors could contribute to a stronger financial profile, and by extension, higher yields. Conversely, companies displaying inadequate ESG measures could face operational risks and regulatory sanctions, leading to lower yields.
 
 \section{Methodology} % Check if it's correct
-The time period that is observed ranges from September 1st, 2014 to September 1st, 2022. Based on that, the constituents of Nasdaq 100 are fetched. This is done using Wikipedia as the source.
-The \textcite{FamaFrench1992} factors are obtained from the official website. 
-Lastly, monthly returns are fetched for the specific index. \\% Maybe write one more sentence about it?
+The data that is observed ranges from September 1st, 2014 to September 1st, 2022 and consists of the constituents of the Nasdaq 100. The constitutents are fetched using Wikipedia as the source.
+The \textcite{FamaFrench1992} factors are obtained from the official website, by fetching a complete CSV of monthly factor returns.
+Monthly returns and ESG scores of the constituents of the specific index were fetched via Yahoo Finance.\\
 
-Using these data sets, columns consisting with only NA values are dropped, while imputation is implemented using the fill-forward method. % Correct?
+These data sets were cleaned by dropping columns consisting of only NA values and implementing the fill-forward method to fill missing values.
 
 \subsection{Model}
 Using the approach based on the \textcite{FamaFrench1992} procedure, the 3-factor model is used. We thus obtain following regression equation:
