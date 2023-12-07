@@ -1,7 +1,4 @@
 # Do ESG factors relate to yields of companies?
-
-==============================
-# ESG Returns Analysis Project
 This is a project built as a part of "Digital Tools for Finance" course at the University of Zurich, during the fall of 2023.
 
 ## Overview
@@ -15,33 +12,31 @@ Project Organization
 ------------
 
     ├── LICENSE
-    ├── README.md          <- The top-level README for developers using this project
+    ├── README.md                <- The top-level README for developers using this project
     ├── Dockerfile
     ├── build_project.py
     ├── data
-    │   ├── processed      <- The final, canonical data sets for modeling
-    │   ├── raw            <- The original, immutable data dump
+    │   ├── processed             <- The final, canonical data sets for modeling
+    │   ├── raw                   <- The original, immutable data dump
     │   └── financial_data.db
     │        
-    ├── notebooks          <- Jupyter notebooks.
+    ├── notebooks                 <- Jupyter notebooks
     │    
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+    ├── reports                   <- Generated analysis as PDF, LaTeX and PNG
     │   ├── pdfs     
     │   ├── tables           
     │   ├── tex      
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    │   └── figures               <- Generated graphics and figures to be used in reporting
     │
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
+    ├── src                       <- Source code for use in this project
+    │   ├── data                  <- Scripts to download and process data
     │   │   ├── fetch_data.py
-    │   │   ├── make_sql_db.py
+    │   │   ├── make_sql_db.py    <- Scripts to collect data into an SQLite database
     │   │   └── processing_data.py
     │   │
-    │   └── models         <- Scripts to train models and then use trained models to make predictions
+    │   └── models                <- Scripts to train models and then use trained models to make predictions
     │       └── regression.py
-    └── requirements.txt   <- The requirements file for reproducing the analysis environment
+    └── requirements.txt          <- The requirements file for reproducing the analysis environment
                        
 --------
 
