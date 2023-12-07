@@ -1,9 +1,9 @@
 matplotlib==3.6.3
 numpy==1.24.1
-pandas
+pandas==2.1.1
 python_dateutil==2.8.2
 requests==2.31.0
 setuptools==65.3.0
 SQLAlchemy==1.4.25
-statsmodels
+statsmodels==0.13.2
 yfinance==0.2.31
