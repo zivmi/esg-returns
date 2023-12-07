@@ -7,7 +7,6 @@ This project analyzes how ESG (Environmental, Social, and Governance) factors re
 
 ## Requirements
 - Docker
-- Python 3.8
 
 Project Organization
 ------------
@@ -15,16 +14,18 @@ Project Organization
     ├── LICENSE
     ├── README.md                <- The top-level README for developers using this project
     ├── Dockerfile
-    ├── build_project.py
+    ├── build_project.py         <- Script to build the project. It runs all the scripts in the correct order.
+    │                                       
     ├── data
     │   ├── processed             <- The final, canonical data sets for modeling
     │   ├── raw                   <- The original, immutable data dump
-    │   └── financial_data.db
+    │   └── financial_data.db     <- SQLite database containing all the data
     │        
-    ├── notebooks                 <- Jupyter notebooks
+    ├── notebooks                 <- Jupyter notebooks contained copy of the analysis, for fetching data
+    │                                to fitting models. It also contains EDA and robustness checks.
     │    
     ├── reports                   <- Generated analysis as PDF, LaTeX and PNG
-    │   ├── pdfs     
+    │   ├── pdfs                  <- **THE FINAL REPORTS AND PRESENTATION**
     │   ├── tables           
     │   ├── tex      
     │   └── figures               <- Generated graphics and figures to be used in reporting
@@ -55,9 +56,17 @@ cd esg-returns
 ```
 3. Build the Docker image:
 ```bash
-esg-returns (main) $ docker build -t esg-returns-app .
+docker build -t esg-returns-app .
 ```
 4. Run:
 ```bash
-esg-returns (main) $ docker run -p 4000:5432 esg-returns-app
+docker run -p 4000:5432 esg-returns-app
+```
+5. See the running containers, and copy the container ID (refered to later as <container_id>):
+```bash
+docker ps
+```
+6. Copy the built project to your desired path (<your_desired_path>)
+```bash
+docker cp <container_id>:esg-returns <your_desired_path>
 ```
