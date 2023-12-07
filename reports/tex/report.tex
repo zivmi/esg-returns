@@ -16,6 +16,7 @@
 %\setlength{\hoffset}{-7mm}
 
 \usepackage{hyperref} %Must be loaded at the end.
+\usepackage{tabularray}
 
 
 \begin{document}
@@ -44,7 +45,9 @@ Miroslav Zivanovic \footnote{\texttt{miroslav.zivanovic@uzh.ch}}\\
 \\ [2cm]
 
 \begin{abstract}
-ESG returns are awesome test test 
+    In this project, we employ the Fama and French 3-Factor Model to analyze the relationship between market risk, size, value on monthly returns for Nasdaq 100 constituents. Further, we examine the effects of incorporating an ESG factor into the factor model.
+    The results indicate negative betas for market risk and size, suggesting that high returns cannot be solely achieved through systematic risk. Additionally, the inclusion of the ESG factor shows a positive coefficient, suggesting that companies with superior ESG standards may outperform, although statistical significance remains limited.
+    Further research with an extended time period and larger sample size may enhance the robustness of these findings.
 \end{abstract}
 
 \vspace{3cm}
@@ -100,48 +103,52 @@ Monthly returns and ESG scores of the constituents of the specific index were fe
 These data sets were cleaned by dropping columns consisting of only NA values and implementing the fill-forward method to fill missing values.
 
 \subsection{Model}
-Using the approach based on the \textcite{FamaFrench1992} procedure, the 3-factor model is used. We thus obtain following regression equation:
-\begin{equation} \text{E}(\text{r}_{\text{i}}) = \text{r}_{\text{f}} + \beta \cdot (\text{r}_{\text{M}} - \text{r}_{\text{f}}) + \beta_{\text{SMB}} \cdot \text{SMB} + \beta_{\text{HML} \cdot \text{HML} \end{equation}
+Using the approach based on the \textcite{FamaFrench1992} procedure, the 3-factor model is used. We thus obtain following regression equation:\\
+\begin{equation} \text{E}(\text{r}_{\text{i}}) = \text{r}_{\text{f}} + \beta \cdot (\text{r}_{\text{M}} - \text{r}_{\text{f}}) + \beta_{\text{SMB}} \cdot \text{SMB} + \beta_{\text{HML}} \cdot \text{HML} \end{equation}
 
-Additionally, a multiple linear regressions is performed where monthly returns are regressed on the factors of the 3-factor model, together with a factor which respresents the ESG aspects. It combines the E-, S-, and G-Scores. Accordingly, we refer to it as the ESG factor.
+Additionally, a multiple linear regressions is performed where monthly returns are regressed on the factors of the 3-factor model, together with a factor which respresents the ESG aspects. It combines the E-, S-, and G-Scores. Accordingly, we refer to it as the ESG factor.\\
+\begin{equation} \text{E}(\text{r}_{\text{i}}) = \text{r}_{\text{f}} + \beta \cdot (\text{r}_{\text{M}} - \text{r}_{\text{f}}) + \beta_{\text{SMB}} \cdot \text{SMB} + \beta_{\text{HML}} \cdot \text{HML} + \beta_{\text{ESG}} \cdot \text{ESG} \end{equation}
 
-\begin{equation} \text{E}(\text{r}_{\text{i}}) = \text{r}_{\text{f}} + \beta \cdot (\text{r}_{\text{M}} - \text{r}_{\text{f}}) + \beta_{\text{SMB}} \cdot \text{SMB} + \beta_{\text{HML} \cdot \text{HML} + \beta_{\text{ESG}} \cdot \text{ESG} \end{equation}
+Based on those two equations, we obtain following summary statistis for the 3-factor model:
+\begin{table}[]
+    \begin{tabular}{lllll}
+                & Intercept                      & Market Risk Premium             & SMB                             & HML                             \\
+    Coefficient & 1.160*10$^{-2}$ & -4.884*10$^{-4}$ & -5.312*10$^{-3}$ & -2.965*10$^{-3}$ \\
+    t-Value     & 1.741                          & -0.946                          & 0.404                           & -0.635                         
+    \end{tabular}
+    \end{table}
 
-Based on those two equations, we obtain following summery statistis: \\
-% Add summary statistics: FF3FM
-
-\usepackage{tabularray}
-\begin{table}
-    \centering
-    \begin{tblr}{
-    }
-                 & Intercept          & Market Risk Premium & SMB & HML & ESG \\
-    Coefficients & -5.900 * 10\^{-2} & -8.300 * 10\^{-5}     & -6.167 * 10\^{-3}    & -3.050 * 10\^{-3}     & 1.009 * 10\^{-3}    \\
-    t-Value      & 0.068                   & -0.968                    & 0.432    & -0.642    & 0.010    \\    
-    \end{tblr}
+For the 3-factor model and the ESG factor, we get: \\
+\begin{table}[]
+    \begin{tabular}{llllll}
+                & Intercept                       & Market Risk Premium             & SMB                             & HML                             & ESG                            \\
+    Coefficient & -5.900*10$^{-2}$ & -8.300*10$^{-5}$ & -6.167*10$^{-3}$ & -3.050*10$^{-3}$ & 1.009*10$^{-3}$ \\
+    t-Value     & 0.068                           & -0.968                          & 0.432                           & -0.642                          & 0.010                         
+    \end{tabular}
     \end{table}
 
 
+Further, we plot the returns according to different ESG factor values.\\ % Check if that's correct
 
-Further, we get plots displaying the intercept, coefficient and the t-statistic.\\ 
-% Add plots: FF3FM
-
-% Add plots: FF3FM + ESG
+% Check if it's compiled correctly
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{reports/figures/regression.png}
+    \caption{Regression plot}}
+    \label{fig:regression}
+  \end{figure}
 
 \section{Results} 
-% Add about FF3FM
+When regressing the monthly returns on the \textcite{FamaFrench1992} factors, all the betas for the factors are negative. The market risk premium has a negative regression slope, indicating that there does not exist a premium rewarding systematic risk. The risk-return profile can not be used to get high returns.
+The coefficients for SML and HML are both negative, which would mean that the optimal investment strategy is buying stocks issued by large firms, as well as growth stocks.\\
+However, as none of the t-values are statistically significant under the 5\% significance level, these results must be handled with caution.\\
 
-Once the ESG factor is included in the factor model, the dynamics are as follows: The market risk premium has a negative regression slope, indicating that there does not exist a premium rewarding systematic risk. The risk-return profile can not be used to get high returns.
-The coefficients for SML and HML are both negative, which would mean that the optimal investment strategy is buying stocks issued by large firms, as well as growth stocks.
-The only factor exhibiting a positive coefficient is the ESG factor. Hence, high ESG ratings can lead to outperformance.\\
-However, as none of the t-values are statistically significant under the 5\% significance level, these results must be handled with caution.
-To increase statistical significance, one should increase the inspected time-period. Further, by increasing the sample size, the statistical significance might increase.
+Taking the ESG factor is included in the factor model, the dynamics are similar. The only factor exhibiting a positive coefficient is the ESG factor. Hence, high ESG ratings can lead to outperformance.\\
+Again, none of the t-values are statistically significant under the 5\% significance level. Thus, there is not a strong enough evidence that our ESG factor relates to yields of companies.
+To increase statistical significance, one could increase the inspected time-period. Further, by increasing the sample size, the statistical significance might increase as well. By implementing these robustment enhancements, a stronger relationship may be discovered.
 
 
-\begin{thebibliography}{1} % Does this compile correctly?
-
-%\bibitem{Paolellalinear}
-%Marc S. Paolella (2018) \emph{Linear Models and Time-Series Analysis}, John Wiley and Sons
+\begin{thebibliography}{1} % Check if it's compiled correctly
 
 @article{Fama1970,
     title={Efficient Capital Markets: A Review of Theory and Empirical Work},
