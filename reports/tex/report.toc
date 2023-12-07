@@ -1,0 +1,7 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
+\contentsline {section}{\numberline {2}Factor Models and ESG in existing research}{2}{section.2}%
+\contentsline {section}{\numberline {3}Methodology}{3}{section.3}%
+\contentsline {section}{\numberline {4}Model}{3}{section.4}%
+\contentsline {section}{\numberline {5}Results}{4}{section.5}%
+\contentsline {section}{\numberline {6}References}{5}{section.6}%

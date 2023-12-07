@@ -24,8 +24,11 @@ if __name__ == "__main__":
     os.chdir(tex_path)
 
     # Compile the latex files
-    subprocess.run(["pdflatex", "report.tex"], check=True)
-    subprocess.run(["pdflatex", "presentation.tex"], check=True)
+    subprocess.run(["pdflatex", "report.tex"])
+    subprocess.run(["biber", "report.bcf"])
+    subprocess.run(["pdflatex", "report.tex"])
+    subprocess.run(["pdflatex", "report.tex"]) # to hell with latex
+    subprocess.run(["pdflatex", "presentation.tex"])
 
     # Move pdf files to reports/pdfs
     os.rename('report.pdf', '../pdfs/report.pdf')
