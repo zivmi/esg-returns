@@ -1,63 +1,49 @@
 # Do ESG factors relate to yields of companies?
 
-==============================
-
-TODO list:
-
-- make a beamer presentation using LaTeX;
-- create an interactive app (Shiny or Jupyter notebook) describing the main findings and presenting several robustness checks;
-- make the project fully reproducible: **dockerize it**, **export the coding environment** and **prepare documentation**; anyone who could pass this course should be able to see and reproduce your findings from scratch;
-- 
-
 This is a project built as a part of "Digital Tools for Finance" course at the University of Zurich, during the fall of 2023.
+
+## Overview
+This project analyzes how ESG (Environmental, Social, and Governance) factors relate to the yields of companies. It uses a Python script for analysis and LaTeX for report generation.
+
+## Requirements
+- Docker
+- Python 3.8
 
 Project Organization
 ------------
 
     ├── LICENSE
-    ├── README.md          <- The top-level README for developers using this project.
+    ├── README.md          <- The top-level README for developers using this project
+    ├── Dockerfile
+    ├── build_project.py
     ├── data
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
+    │   ├── processed      <- The final, canonical data sets for modeling
+    │   ├── raw            <- The original, immutable data dump
+    │   └── financial_data.db
+    │        
+    ├── notebooks          <- Jupyter notebooks.
+    │    
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
+    │   ├── pdfs     
+    │   ├── tables           
+    │   ├── tex      
     │   └── figures        <- Generated graphics and figures to be used in reporting
     │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
     │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
+    │   │   ├── fetch_data.py
+    │   │   ├── make_sql_db.py
+    │   │   └── processing_data.py
     │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   └── models         <- Scripts to train models and then use trained models to make
-    │       │                 predictions
-    │       ├── predict_model.py
-    │       └── train_model.py
-    │
-    └── 
-
+    │   └── models         <- Scripts to train models and then use trained models to make predictions
+    │       └── regression.py
+    └── requirements.txt   <- The requirements file for reproducing the analysis environment
+                       
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
-
-# Our Project:
 
 ## Setup and Running
 
@@ -71,5 +57,9 @@ cd esg-returns
 ```
 3. Build the Docker image:
 ```bash
-esg-returns (main) $ docker build -t esg-returns .
+esg-returns (main) $ docker build -t esg-returns-app .
+```
+4. Run:
+```bash
+esg-returns (main) $ docker run -p 4000:5432 esg-returns-app
 ```
