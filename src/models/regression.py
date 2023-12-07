@@ -1,9 +1,8 @@
 import numpy as np
 import pandas as pd
-import statsmodels.formula.api as smf
-from sklearn.linear_model import LinearRegression
 from sqlalchemy import create_engine, Float, Date
 import statsmodels.api as sm
+import matplotlib.pyplot as plt
 
 ## Create an SQLAlchemy engine
 engine = create_engine('sqlite:///data/financial_data.db')
@@ -24,113 +23,113 @@ monthlyreturns.index = pd.to_datetime(monthlyreturns.index, format='ISO8601')
 fama_french.index = pd.to_datetime(fama_french.index, format='ISO8601')
 
 
-regressor = LinearRegression() # Creates a LinearRegression Object
+# Prepare target variable
+monthlyreturns = (monthlyreturns
+    .loc[:'2019-11-01'] 
+    .dropna(axis=1, how='all') # drop all columns with all NA values
+)
 
-# NEW APPROACH:
-import numpy as np
-# Select the columns that end with 'T_Score'
-#t_score_columns = [col for col in esgdata.columns if col.endswith('Total_Score')]
-#X= np.mean(esgdata[t_score_columns]) # Not entirely correct
-X=esgdata[['ADBE_Total_Score']]
-#print(len(X)) # As test
-#print(X) # As test
+intercept = (pd.DataFrame({"Intercept":np.repeat(1, len(esgdata[['Total_Score']]))})
+    .set_index(esgdata.index)
+)
 
-#Loop through each column and do regressions (example of simple linear regression with 'another_column' as independent variable):
+# Join features
+X = (esgdata[['Total_Score']]
+    .join(fama_french)
+    .drop(columns=["RF"])
+    .join(intercept)
+    .dropna()
+    .loc[:'2019-11-01']
+)
 
-intercepts = [] # Initialize lists to store intercepts and coefficients
-coefficients = []
+## FIT FAMA FRENCH 3 FACTOR MODEL
 
+coefficients_3f = []
+t_values_3f  = []
+
+# Fit one linear model for each ticker in the monthlyreturns DataFrame
 for col in monthlyreturns.columns:
-    Y = monthlyreturns[col]
+    Y = monthlyreturns[col].to_frame()
 
-    temp_df = X.join(Y).join(fama_french).dropna()
-    #print(temp_df) # To check
+    # Drop rows with NA values in the intersection of X and Y
+    temp_df = Y.join(X).dropna()
+    Y_temp = temp_df.iloc[:, 0].values.reshape(-1, 1)  # values converts it into a numpy array
+    X_temp = temp_df.iloc[:, 2:].values.reshape(-1, 4) # ESG Score (Total_Score, column 1) is omitted 
 
-    Y_temp = temp_df.iloc[:, 1].values.reshape(-1, 1)  # values converts it into a numpy array
-    #Y_temp = temp_df.iloc[:, 1:4].values.reshape(-1, 1)  
-    X_temp = temp_df.iloc[:, [0, 2, 3, 4]].values.reshape(-1, 4)
-    #print(X_temp) # To check 
+    # Fit the model
+    mod = sm.OLS(Y_temp, X_temp)
+    res = mod.fit()
 
-# # Fit the model
-    regressor.fit(X_temp, Y_temp)
-
-# Append the intercept and coefficients to the respective lists
-    intercepts.append(regressor.intercept_[0])
-    coefficients.append(list(regressor.coef_[0]))
-
-# coefficients = [list(coef) for coef in coefficients]
-# intercepts = [list(intercepts) for intercept in intercepts]
-#print(intercepts)
-
+    coefficients_3f.append(list(res.params))
+    t_values_3f.append(list(res.tvalues))
+    
 # Calculate averages
-avg_coefficients = np.mean(coefficients, axis=0)
-avg_intercept = np.mean(intercepts)
-#print(avg_coefficients)
-#print(avg_coefficients[1])
-#print(temp_df)
+avg_coefficients_3f = np.mean(coefficients_3f, axis=0)
+avg_t_values_3f  = pd.DataFrame(t_values_3f).mean(axis=0).to_numpy() #previous: np.mean(t_values, axis=0) does not work
 
-# Plot
-import matplotlib.pyplot as plt
-x = np.linspace(-10, 10, 400)
-y = avg_intercept + avg_coefficients[0] * esgdata[['ADBE_Total_Score']] + avg_coefficients[1] * temp_df[['Mkt-RF']] + avg_coefficients[2] * temp_df[['SMB']]  + avg_coefficients[3] * temp_df[['HML']] 
+# Format results
+avg_coefficients_3f = pd.DataFrame(avg_coefficients_3f).T.rename(columns={0:"Mkt-RF", 1:"SMB", 2:"HML", 3:"Intercept"})
+avg_coefficients_3f.index = ["Average Coefficients"]
 
+avg_t_values_3f = pd.DataFrame(avg_t_values_3f).T.rename(columns={0:"Mkt-RF", 1:"SMB", 2:"HML", 3:"Intercept"})
+avg_t_values_3f.index = ["Average t statistics"]
+
+result_3f = pd.concat([avg_coefficients_3f, avg_t_values_3f])
+result_3f.to_csv('reports/tables/3f_results.csv')
+result_3f
+
+
+# FIT 4 FACTOR MODEL (FF3 + ESG)
+
+coefficients_4f = []
+t_values_4f  = []
+
+# Fit one linear model for each ticker in the monthlyreturns DataFrame
+for col in monthlyreturns.columns:
+    Y = monthlyreturns[col].to_frame()
+
+    # Drop rows with NA values in the intersection of X and Y
+    temp_df = Y.join(X).dropna()
+    Y_temp = temp_df.iloc[:, 0].values.reshape(-1, 1)  # values converts it into a numpy array
+    X_temp = temp_df.iloc[:, 1:].values.reshape(-1, 5)
+
+    # Fit the model
+    mod = sm.OLS(Y_temp, X_temp)
+    res = mod.fit()
+
+    coefficients_4f.append(list(res.params))
+    t_values_4f.append(list(res.tvalues))
+    
+# Calculate averages
+avg_coefficients_4f = np.mean(coefficients_4f, axis=0)
+avg_t_values_4f = pd.DataFrame(t_values_4f).mean(axis=0).to_numpy() #previous: np.mean(t_values, axis=0) does not work
+
+# Format results
+avg_coefficients_4f = pd.DataFrame(avg_coefficients_4f).T.rename(columns={0:"Total_Score", 1:"Mkt-RF", 2:"SMB", 3:"HML", 4:"Intercept"})
+avg_coefficients_4f.index = ["Average Coefficients"]
+
+avg_t_values_4f = pd.DataFrame(avg_t_values_4f).T.rename(columns={0:"Total_Score", 1:"Mkt-RF", 2:"SMB", 3:"HML", 4:"Intercept"})
+avg_t_values_4f.index = ["Average t statistics"]
+
+result_4f = pd.concat([avg_coefficients_4f, avg_t_values_4f])
+result_4f.to_csv('reports/tables/4f_results.csv')
+result_4f
+
+# Plot regression
+
+df_temp = monthlyreturns.join(X).reset_index(drop=True)
+df_plot = pd.melt(df_temp.iloc[:,:-4], id_vars=["Total_Score"]).dropna()
 
 plt.figure(figsize=(10,6))
-plt.plot(x, y)
-plt.title('Regression of Total Score')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.grid(True)
-# plt.savefig('reports/figures/regression.png') # uncomment to save figure
-plt.show()
+plt.scatter(df_plot["Total_Score"], df_plot["value"], alpha=0.5, s=10)
+#plt.title('Monthly Returns vs. ESG Score')
+plt.xlabel('ESG Score')
+plt.ylabel('Returns [%]')
 
-# Regression using loop
-#x = esgdata[['ADBE_E_Score']]
+x = np.linspace(min(df_plot["Total_Score"])-0.5, max(df_plot["Total_Score"])+0.5, 100)
+y = (avg_coefficients_4f.Intercept.values[0] + avg_coefficients_4f.Total_Score.values[0] * x)
 
-#intercepts = [] # Initialize lists to store intercepts and coefficients
-#coefficients = []
-
-# Loop over each column in 'monthlyreturns'
-# for column in monthlyreturns.columns:
-
-#     y = monthlyreturns[column]
-
-#     temp_df = x.join(y).dropna()
-
-#     x_temp = temp_df.iloc[:, 0].values.reshape(-1, 1)  # values converts it into a numpy array
-#     y_temp = temp_df.iloc[:, 1].values.reshape(-1, 1)  
-
-#     # Fit the model
-#     regressor.fit(x_temp, y_temp)
-
-#     # Append the intercept and coefficients to the respective lists
-#     intercepts.append(regressor.intercept_)
-#     coefficients.append(regressor.coef_)
-
-# # Coefficients are stored in list of numpy arrays, converting to list of lists for readability
-# coefficients = [list(coef) for coef in coefficients]
-# intercepts = [list(intercepts) for intercept in intercepts]
-
-# # Calculate averages
-# import numpy as np
-# avg_coef = np.mean(coefficients)
-# avg_int = np.mean(intercepts)
-# print(avg_coef)
-# print(avg_int)
-
-# Plot
-# import matplotlib.pyplot as plt
-# x = np.linspace(-10, 10, 400)
-# y = avg_coef * x + avg_int
-
-# plt.figure(figsize=(10,6))
-# plt.plot(x, y)
-# plt.title('Regression of ABDE Score')
-# plt.xlabel('X')
-# plt.ylabel('Y')
-# plt.grid(True)
-# plt.savefig('reports/figures/regression.png') # uncomment to save figure
-# plt.show()
-
-
-
+plt.plot(x, y, color='red', linewidth=2, label='4-Factor model', alpha=0.5, linestyle='--')
+plt.axhline(y=0.0, color='black', linewidth=0.2)
+plt.legend()
+plt.savefig('reports/figures/regression.png') # uncomment to save figure
