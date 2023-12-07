@@ -1,0 +1,106 @@
+\documentclass{beamer}%[xcolor={dvipsnames,svgnames}]
+%\usecolortheme{spruce}
+% Choose how your presentation looks.
+%
+% For more themes, color themes and font themes, see:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+%
+\definecolor{myred}{RGB}{191,23,23}
+%\definecolor{myredy}{RGB}{205,23,23}
+
+\mode<presentation>
+{
+  \usetheme{Berlin}      % or try Darmstadt Berlin, Boadilla, Ilmenau, Madrid, ...
+  \usecolortheme{beaver} % or try albatross, beaver, crane, ...
+  \usefonttheme{serif}  % or try serif, structurebold, ...
+  \setbeamertemplate{navigation symbols}{}
+  \setbeamertemplate{caption}[numbered]
+\setbeamercolor{section number projected}{bg=myred,fg=white}  	
+\setbeamercolor{subsection number projected}{bg=myred,fg=white}  	
+
+\setbeamertemplate{itemize item}{\color{myred}$\blacksquare$}
+  \setbeamertemplate{itemize subitem}{\color{myred}$\blacktriangleright$}
+} 
+
+\usepackage{hyperref}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset
+{
+    language=[LaTeX]TeX,
+    breaklines=true,
+    basicstyle=\tt\scriptsize,
+    commentstyle=\color{gray}
+    keywordstyle=\color{red},
+    stringstyle=\color{black}
+    identifierstyle=\color{black},
+}
+
+\title[]{Do ESG factors relate to yields of companies?}
+\author{Gehrig, Li, Kuzmina, Zivanovic}
+
+\titlegraphic{\includegraphics[width=2cm]{../figures/uzh.png}\hspace*{4.75cm}~%
+  % \includegraphics[width=2cm]{logopolito}
+   }
+
+
+\setbeamertemplate{footline} 
+{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor%~~\beamer@ifempty{\insertshortinstitute}{}{(\insertshortinstitute)}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{institute in head/foot}%
+    \usebeamerfont{institute in head/foot}\insertshortinstitute
+ \end{beamercolorbox}%
+  
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Sadržaj}
+  \tableofcontents
+\end{frame}
+
+
+% TBA other sections
+
+\section{Results}
+
+
+\begin{frame}{Results for 4 factor model}
+	\begin{figure}
+		\vspace{-5pt}
+			\includegraphics[width=0.65\textwidth]{../figures/regression.png}
+		\centering
+	\end{figure}
+\begin{itemize}
+\item Bla \pause
+\item Bla bla \pause
+\item Bla bla bla
+\end{itemize}
+\end{frame}
+
+
+\end{document}
