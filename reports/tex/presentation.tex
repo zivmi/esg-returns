@@ -4,6 +4,9 @@
 \usefonttheme{serif}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{caption}[numbered]
+
+\definecolor{myred}{RGB}{190, 23, 23}
+
 \setbeamercolor{section number projected}{bg=myred,fg=white}
 \setbeamercolor{subsection number projected}{bg=myred,fg=white}
 \setbeamertemplate{itemize item}{\color{myred}$\blacksquare$}
@@ -18,7 +21,7 @@
 
 \title[]{Do ESG factors relate to yields of companies?}
 \author{Gehrig, Li, Kuzmina, Zivanovic}
-\titlegraphic{\centering\includegraphics[width=2cm]{figures/uzh.png}}
+\titlegraphic{\centering\includegraphics[width=2cm]{../figures/uzh.png}}
 
 \setbeamertemplate{footline} 
 {
@@ -60,7 +63,7 @@
 \section{Factor Models and ESG in Existing Research}
 \begin{frame}{Asset Pricing Models}
   \begin{itemize}
-    \item \textbf{Efficient Market Hypothesis} by \textcite{Fama, 1970}: \\ All firm value information reflected in stock prices, complicating alpha generation.
+    \item \textbf{Efficient Market Hypothesis} by Fama, 1970: \\ All firm value information reflected in stock prices, complicating alpha generation.
     \item Introduction of the \textbf{Capital Asset Pricing Model (CAPM):}\\
     Systematic risk measurement through beta, leading to market risk assessment.
     \item Emergence of the \textbf{Arbitrage Pricing Theory:} \\
@@ -103,7 +106,7 @@
   \begin{itemize}
     \item Regression Analysis:
       \begin{itemize}
-        \item All betas for \textcite{FamaFrench1992} factors are negative.
+        \item All betas for (Fama and French, 1992) factors are negative.
         \item Negative slope for market risk premium, challenging the concept of a reward for systematic risk.
         \item Negative coefficients for SMB and HML suggest favoring large firms and growth stocks.
       \end{itemize}
@@ -117,7 +120,7 @@
 
 \begin{frame}{Results for \textbf{Four Factor Model}}
   \begin{figure}
-    \includegraphics[width=0.65\textwidth]{figures/regression.png}
+    \includegraphics[width=0.65\textwidth]{../figures/regression.png}
     \centering
   \end{figure}
       \begin{itemize}
@@ -139,3 +142,4 @@
 \end{frame}
 
 \end{document}
+
