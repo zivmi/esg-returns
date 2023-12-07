@@ -58,15 +58,21 @@ cd esg-returns
 ```bash
 docker build -t esg-returns-app .
 ```
-4. Run:
+4. Run the container in the interactive mode:
 ```bash
-docker run -p 4000:5432 esg-returns-app
+docker run -ip esg-returns-app
 ```
-5. See the running containers, and copy the container ID (refered to later as <container_id>):
+5. Inside the container run the build script:
+```bash
+python build_project.py
+```
+The final report will be generated in the reports/pdfs directory inside the container. **Do not close the terminal where the container is running in the interactive mode and do not shut down the container yet.** To inspect all the generated files, you can copy the project from the container to your local machine. 
+6. Open another terminal. See the running containers, and copy the container ID (refered to later as <container_id>):
 ```bash
 docker ps
 ```
-6. Copy the built project to your desired path (<your_desired_path>)
+7. Copy the built project to your desired path (<your_desired_path>)
 ```bash
 docker cp <container_id>:esg-returns <your_desired_path>
 ```
+Now you can open the project in your local machine and inspect the generated files.

@@ -14,8 +14,10 @@ RUN apt-get update && apt-get install -y \
 # Copy the current directory contents into the container
 COPY . /esg-returns
 
+WORKDIR /esg-returns
+
 # Install the Python dependencies
-COPY requirements.txt .
+# COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make ports available to the world outside this container
