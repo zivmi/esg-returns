@@ -5,18 +5,28 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{geometry}
+\usepackage{float} 
+%\usepackage{tabularray}
+\usepackage{array}
+%\usepackage{multirow}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, calc}
+%\usepackage{booktabs} 
+\renewcommand{\thesubsection}{\thesection.\alph{subsection}}
 
-%\setlength{\textheight}{24cm}
-%\setlength{\textwidth}{160mm}
-%\setlength{\topmargin}{-1.5cm}		
-%\setlength{\evensidemargin}{-0mm}
-%\setlength{\oddsidemargin}{-0mm}
 
-%\setlength{\voffset}{-20mm}
-%\setlength{\hoffset}{-7mm}
+% bibliography
+\usepackage[
+    backend=biber,
+    style=bwl-FU,
+    url=false,
+    doi=false,
+    eprint=false
+]{biblatex}
+\addbibresource{literature.bib}
 
 \usepackage{hyperref} %Must be loaded at the end.
-\usepackage{tabularray}
 
 
 \begin{document}
@@ -66,10 +76,7 @@ ESG returns are awesome test test
 \newpage
 \section{Introduction}
 In this research project, we assess the factors introduced by \textcite{FamaFrench1992}. Additionally, we incorporate Environmental, Social, and Governance [ESG] factors into the factor models.
-The question arises whether these are valuable factors. Based on this, we examine following research question:\\
-
-
-How do ESG factors relate to yields of companies?
+The question arises whether these are valuable factors. Based on this, we examine following research question: How do ESG factors relate to yields of companies?
 
 %---------------------------------------------------
 %
@@ -100,16 +107,20 @@ Monthly returns and ESG scores of the constituents of the specific index were fe
 
 These data sets were cleaned by dropping columns consisting of only NA values and implementing the fill-forward method to fill missing values.
 
-\subsection{Model}
+\section{Model}
 Using the approach based on the \textcite{FamaFrench1992} procedure, the 3-factor model is used. We thus obtain following regression equation:\\
-\begin{equation} \text{E}(\text{r}_{\text{i}}) = \text{r}_{\text{f}} + \beta \cdot (\text{r}_{\text{M}} - \text{r}_{\text{f}}) + \beta_{\text{SMB}} \cdot \text{SMB} + \beta_{\text{HML}} \cdot \text{HML} \end{equation}
+\begin{equation} 
+E(r_i) = r_i + \beta(r_M-r_f) + \beta_{SMB} \cdot\text{SMB} +  \beta_{HLM} \cdot\text{HML}
+ \end{equation}
 
 Additionally, a multiple linear regressions is performed where monthly returns are regressed on the factors of the 3-factor model, together with a factor which respresents the ESG aspects. It combines the E-, S-, and G-Scores. Accordingly, we refer to it as the ESG factor.\\
-\begin{equation} \text{E}(\text{r}_{\text{i}}) = \text{r}_{\text{f}} + \beta \cdot (\text{r}_{\text{M}} - \text{r}_{\text{f}}) + \beta_{\text{SMB}} \cdot \text{SMB} + \beta_{\text{HML}} \cdot \text{HML} + \beta_{\text{ESG}} \cdot \text{ESG} \end{equation}
+\begin{equation}
+E(r_i) = r_i + \beta(r_M-r_f) + \beta_{SMB} \cdot\text{SMB} +  \beta_{HLM} \cdot\text{HML} +  \beta_{ESG}\cdot\text{ESG}
+\end{equation}
 
 Based on those two equations, we obtain following summary statistis for the 3-factor model:
 \begin{table}[]
-    \begin{tabular}{lllll}
+    \begin{tabular}{l|llll}
                 & Intercept                      & Market Risk Premium             & SMB                             & HML                             \\
     Coefficient & 1.160*10$^{-2}$ & -4.884*10$^{-4}$ & -5.312*10$^{-3}$ & -2.965*10$^{-3}$ \\
     t-Value     & 1.741                          & -0.946                          & 0.404                           & -0.635                         
@@ -131,8 +142,8 @@ Further, we plot the returns according to different ESG factor values.\\ % Check
 % Check if it's compiled correctly
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{reports/figures/regression.png}
-    \caption{Regression plot}}
+    \includegraphics[width=\textwidth]{../figures/regression.png}
+    \caption{Regression plot}
     \label{fig:regression}
   \end{figure}
 
@@ -146,100 +157,8 @@ Again, none of the t-values are statistically significant under the 5\% signific
 To increase statistical significance, one could increase the inspected time-period. Further, by increasing the sample size, the statistical significance might increase as well.
 
 
-\begin{thebibliography}{1} % Check if it's compiled correctly
-
-@article{Fama1970,
-    title={Efficient Capital Markets: A Review of Theory and Empirical Work},
-    author={Fama, Eugene F.},
-    journal={The Journal of Finance},
-    volume={25},
-    number={2},
-    pages={384-385},
-    year={1970},
-    publisher={Wiley for the American Finance Association}
-}
-
-@article{Sharpe1964,
-    title={Capital Asset Prices: A Theory of Market Equilibrium under Conditions of Risk},
-    author={Sharpe, William F.},
-    journal={The Journal of Finance},
-    volume={19},
-    number={3},
-    pages={425-442},
-    year={1964},
-    publisher={Wiley for the American Finance Association}
-}
-
-@article{Lintner1965,
-    title={The Valuation of Risk Assets and the Selection of Risky Investments in Stock Portfolios and Capital Budgets},
-    author={Lintner, John},
-    journal={The Review of Economics and Statistics},
-    volume={47},
-    number={1},
-    pages={13-37},
-    year={1965},
-    publisher={MIT Press}
-}
-
-@article{Ross1976,
-    title={The Arbitrage Theory of Capital Asset Pricing},
-    author={Ross, Stephen A.},
-    journal={Journal of Economic Theory},
-    volume={13},
-    number={3},
-    pages={341-360},
-    year={1976},
-    publisher={Elsevier}
-}
-
-@article{FamaFrench1992,
-    title={The Cross-Section of Expected Stock Returns},
-    author={Fama, Eugene F. and French, Kenneth R.},
-    journal={The Journal of Finance},
-    volume={47},
-    number={2},
-    pages={427-465},
-    year={1992},
-    publisher={Wiley for the American Finance Association}
-}
-
-
-@article{FamaFrench2014,
-    title={A five-factor asset pricing model},
-    author={Fama, Eugene F. and French, Kenneth R.},
-    journal={Journal of Financial Economics},
-    volume={116},
-    number={1},
-    pages={1-22},
-    year={2014},
-    publisher={Elsevier}
-}
-
-
-@article{FamaFrench2012,
-  title = {Size, Value, and Momentum in International Stock Returns},
-  author = {Fama, Eugene F. and French, Kenneth R.},
-  journal = {Journal of Financial Economics},
-  volume = {105},
-  number = {3},
-  pages = {457-472},
-  year = {2012},
-  publisher = {Elsevier},
-}
-
-
-@article{FamaFrench1997,
-    title = {Industry costs of equity},
-    author = {Fama, Eugene F. and French, Kenneth R.},
-    journal = {Journal of Financial Economics},
-    volume = {43},
-    number = {2},
-    pages = {153-193},
-    year = {1997},
-}
-
-
-\end{thebibliography}
+\section{References}
+\printbibliography[heading=none]
 
 
 \end{document}
