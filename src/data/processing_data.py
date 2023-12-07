@@ -19,7 +19,7 @@ monthlyreturns = pd.read_csv(r'data/raw/monthly_returns.csv', index_col=0, parse
 monthlyreturns = drop_columns_with_missing_values(monthlyreturns)
 
 # Fill-Forward imputation
-monthlyreturns = monthlyreturns.fillna(method='ffill') 
+monthlyreturns = monthlyreturns.ffill()
 
 # ESG and FF data are indexed by the first day of the month, 
 # whereas monthly returns are indexed by the last day of the month, thus we shift returns by 1 day
@@ -28,8 +28,18 @@ monthlyreturns.index = monthlyreturns.index.shift(1, freq='D')
 # Import ESG data
 esgdata =  pd.read_csv(r'data/raw/esg_data.csv', index_col=1, parse_dates=True).drop(columns=['Unnamed: 0'])
 
+agg_esgdata = esgdata.drop(columns=esgdata.columns)
+for regex_word in ["Total_Score", "E_Score", "S_Score", "G_Score"]:
+    temp_df = (esgdata
+        .filter(regex=regex_word)
+        .aggregate("max", axis="columns")
+        .to_frame()
+        .rename(columns={0:regex_word})
+    )
+    agg_esgdata.loc[:, regex_word] = temp_df.loc[:, regex_word]
+
 # Fill Forward imputation
-esgdata = esgdata.fillna(method='ffill')
+esgdata = agg_esgdata.ffill()#.loc[:'2019-11-01']
 
 # Import FF data (does not need any processing)
 famafrenchdata = pd.read_csv(r'data/raw/F-F_Research_Data_Factors.csv', index_col=1)
