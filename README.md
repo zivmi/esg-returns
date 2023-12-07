@@ -2,17 +2,21 @@
 
 ==============================
 
+TODO list:
+
+- make a beamer presentation using LaTeX;
+- create an interactive app (Shiny or Jupyter notebook) describing the main findings and presenting several robustness checks;
+- make the project fully reproducible: **dockerize it**, **export the coding environment** and **prepare documentation**; anyone who could pass this course should be able to see and reproduce your findings from scratch;
+- 
+
 This is a project built as a part of "Digital Tools for Finance" course at the University of Zurich, during the fall of 2023.
 
 Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
     │
@@ -42,15 +46,12 @@ Project Organization
     │   ├── features       <- Scripts to turn raw data into features for modeling
     │   │   └── build_features.py
     │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
+    │   └── models         <- Scripts to train models and then use trained models to make
+    │       │                 predictions
+    │       ├── predict_model.py
+    │       └── train_model.py
     │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+    └── 
 
 --------
 
